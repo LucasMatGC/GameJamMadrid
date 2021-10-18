@@ -250,10 +250,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8289957966970911142, guid: 13160a3c9e3297c48a7d8ca951821193, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9d1ffe34742dc8242b4190b8f478d161, type: 2}
+    - target: {fileID: -7755129280546227144, guid: 13160a3c9e3297c48a7d8ca951821193, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9d1ffe34742dc8242b4190b8f478d161, type: 2}
+    - target: {fileID: -7064738782772790619, guid: 13160a3c9e3297c48a7d8ca951821193, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9d1ffe34742dc8242b4190b8f478d161, type: 2}
+    - target: {fileID: -2055859222991638243, guid: 13160a3c9e3297c48a7d8ca951821193, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9d1ffe34742dc8242b4190b8f478d161, type: 2}
     - target: {fileID: 919132149155446097, guid: 13160a3c9e3297c48a7d8ca951821193, type: 3}
       propertyPath: m_Name
       value: CocheV2
       objectReference: {fileID: 0}
+    - target: {fileID: 5216169525247684207, guid: 13160a3c9e3297c48a7d8ca951821193, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9d1ffe34742dc8242b4190b8f478d161, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13160a3c9e3297c48a7d8ca951821193, type: 3}
 --- !u!1 &348344423

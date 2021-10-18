@@ -24,12 +24,29 @@ public class Character3DControllerV3 : MonoBehaviour
     public float motorForce = 3000f;
     public float brakeForce = 0f;
 
+    private Temporizador gameControl;
+
+    void Start()
+    {
+        gameControl = FindObjectOfType<Temporizador>();
+    }
+
     private void FixedUpdate()
     {
-        GetInput();
-        HandleMotor();
-        HandleSteering();
-        UpdateWheels();
+        if(gameControl.IsGameRunning())
+        {
+            GetInput();
+            HandleMotor();
+            HandleSteering();
+            UpdateWheels();
+        }
+        else
+        {
+            frontLeftWheelCollider.brakeTorque = maxBreakForce;
+            frontRightWheelCollider.brakeTorque = maxBreakForce;
+            rearLeftWheelCollider.brakeTorque = maxBreakForce;
+            rearRightWheelCollider.brakeTorque = maxBreakForce;
+        }
     }
 
     private void GetInput()

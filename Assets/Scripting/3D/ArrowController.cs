@@ -16,7 +16,7 @@ public class ArrowController : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Player3D");
-        objective = GameObject.Find("EndPole");
+        objective = GameObject.Find("Destination");
         arrow = GameObject.Find("Arrow");
         //arrow.transform.rotation = Quaternion.LookRotation(objective.transform.position, Vector3.up);
     }

@@ -24,11 +24,11 @@ public class Character3DControllerV3 : MonoBehaviour
     public float motorForce = 3000f;
     public float brakeForce = 0f;
 
-    private Temporizador gameControl;
+    private GameController gameControl;
 
     void Start()
     {
-        gameControl = FindObjectOfType<Temporizador>();
+        gameControl = FindObjectOfType<GameController>();
     }
 
     private void FixedUpdate()

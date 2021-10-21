@@ -6,7 +6,7 @@ PhysicMaterial:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Bounced
+  m_Name: BouncedCajas
   dynamicFriction: 9999999
   staticFriction: 9999999
   bounciness: 1

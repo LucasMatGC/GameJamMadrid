@@ -9,7 +9,7 @@ public class ObjetiveController : MonoBehaviour
     void Start()
     {
         //player = GameObject.Find("Player3D");
-        gameController = FindObjectOfType<GameController>();
+        gameController = GameController.instance;
     }
 
     void Update()

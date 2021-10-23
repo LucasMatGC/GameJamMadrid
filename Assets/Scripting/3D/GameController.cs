@@ -7,9 +7,19 @@ using System;
 public class GameController : MonoBehaviour
 {
     public float TOTAL_TIME = 40f;
-    const float GOLD_3D = 80f;
-    const float SILVER_3D = 110f;
-    const float BRONZE_3D = 150f;
+    const float GOLD_TIME_3D = 90f;
+    const float SILVER_TIME_3D = 120f;
+    const float BRONZE_TIME_3D = 180f;
+    const int GOLD_POINTS_3D = 1500;
+    const int SILVER_POINTS_3D = 1000;
+    const int BRONZE_POINTS_3D = 500;
+
+    const int GOLD_NOTES_2D = 60;
+    const int SILVER_NOTES_2D = 50;
+    const int BRONZE_NOTES_2D = 36;
+    const int GOLD_POINTS_2D = 1500;
+    const int SILVER_POINTS_2D = 1000;
+    const int BRONZE_POINTS_2D = 500;
 
     public AudioSource gameMusic;
 
@@ -17,11 +27,15 @@ public class GameController : MonoBehaviour
 
     public static GameController instance;
 
+    public int totalNotes;
+    private int notesPassed;
     private int notesPressed;
-    private int currentScore;
+    private int currentScore2D;
     private int scorePerNote = 100;
     private int scorePerNoteGood = 125;
     private int scorePerNotePerfect = 150;
+
+    private int totalScore;
 
     public int currentMultiplier;
     public int multiplierTracker;
@@ -38,11 +52,14 @@ public class GameController : MonoBehaviour
 
 
     public Text end;
-    //public GameObject destination;
+    public Text multiplier;
+    public Image paperEnd;
     //public GameObject player;
 
     // para saber si se ha iniciado o ha endalizado el juego
-    private bool gameRunning;
+    public bool gameRunning3D;
+    public bool gameRunning2D;
+    public bool showEnd;
 
     private GameTimer timer;
 
@@ -55,11 +72,12 @@ public class GameController : MonoBehaviour
 
         timer = FindObjectOfType<GameTimer>();
 
-        end.enabled = false;
-        gameRunning = true;
+        gameRunning3D = true;
+        gameRunning2D = true;
+        showEnd = false;
         beatController.hasStarted = true;
         notesPressed = 0;
-        currentScore = 0;
+        currentScore2D = 0;
         currentMultiplier = 1;
         multiplierTracker = 0;
 
@@ -67,28 +85,37 @@ public class GameController : MonoBehaviour
         currentNoteStep = 0;
         currentAnimation = 0;
 
+        multiplier.color = Color.cyan;
+
         gameMusic.Play();
     }
 
     void Update()
     {
         // jugando
-        if (gameRunning)
+        if (IsGameRunning())
         {
 
             // el tiempo ha acabado y no ha llegado al destino
             if (timer.getTimer() <= 0)
             {
-                gameRunning = false;
-                end.enabled = true;
-                end.text = "El tiempo se ha acabado\nPuntuación: 0";
+                gameRunning3D = false;
+                gameRunning2D = false;
             }
+        } else
+        {
+            if (!showEnd)
+            {
+                showEnd = true;
+                EndGame();
+            }
+
         }
     }
 
     public void NormalHit()
     {
-        currentScore += scorePerNote * currentMultiplier;
+        currentScore2D += scorePerNote * currentMultiplier;
 
         NoteHit();
 
@@ -96,7 +123,7 @@ public class GameController : MonoBehaviour
 
     public void GoodHit()
     {
-        currentScore += scorePerNoteGood * currentMultiplier;
+        currentScore2D += scorePerNoteGood * currentMultiplier;
 
         NoteHit();
 
@@ -104,7 +131,7 @@ public class GameController : MonoBehaviour
 
     public void PerfectHit()
     {
-        currentScore += scorePerNotePerfect * currentMultiplier;
+        currentScore2D += scorePerNotePerfect * currentMultiplier;
 
         NoteHit();
 
@@ -122,9 +149,20 @@ public class GameController : MonoBehaviour
             if (multiplierThreshold[currentMultiplier - 1] <= multiplierTracker)
             {
                 multiplierTracker = 0;
+
                 currentMultiplier++;
+                multiplier.text = "x" + currentMultiplier;
+
+                if (currentMultiplier == 2)
+                    multiplier.color = Color.green;
+                else if (currentMultiplier == 3)
+                    multiplier.color = Color.yellow;
+                else
+                    multiplier.color = Color.red;
             }
         }
+
+        end.text = "Puntos: " + currentScore2D;
 
         ControleStep(true);
 
@@ -132,9 +170,10 @@ public class GameController : MonoBehaviour
 
     public void NoteMissed()
     {
-
         currentMultiplier = 1;
         multiplierTracker = 0;
+        multiplier.text = "x1";
+        multiplier.color = Color.cyan;
         ControleStep(false);
 
     }
@@ -243,53 +282,134 @@ public class GameController : MonoBehaviour
 
         }
 
+        notesPassed++;
+
+        if (notesPassed == totalNotes)
+            gameRunning2D = false;
+
     }
 
     // si hemos llegado al destino
     public void ArriveDestination()
     {
-        if (!gameRunning)
-            return;
-
-        gameRunning = false;
-
-        // oro
-        if ((TOTAL_TIME - timer.getTimer()) < GOLD_3D)
-        {
-            end.enabled = true;
-            end.color = Color.yellow;
-            end.text = "Medalla de ORO\nPuntuación: " + (int)Math.Round(timer.getTimer() * 100);
-        }
-        // plata
-        else if ((TOTAL_TIME - timer.getTimer()) < SILVER_3D && (TOTAL_TIME - timer.getTimer()) >= GOLD_3D)
-        {
-            end.enabled = true;
-            end.color = Color.grey;
-            end.text = "Medalle de PLATA\nPuntuación: " + (int)Math.Round(timer.getTimer() * 100);
-        }
-        // bronce
-        else if ((TOTAL_TIME - timer.getTimer()) < BRONZE_3D && (TOTAL_TIME - timer.getTimer()) >= SILVER_3D)
-        {
-            end.enabled = true;
-            end.color = Color.cyan;
-            end.text = "Medalla de BRONCE\nPuntuación: " + (int)Math.Round(timer.getTimer() * 100);
-        }
-        // loser
-        else
-        {
-            end.enabled = true;
-            end.color = Color.magenta;
-            end.text = "Puedes hacerlo mejor\nPuntuación: " + (int)Math.Round(timer.getTimer() * 100);
-        }
+        
+        gameRunning3D = false;
+                
     }
 
     public bool IsGameRunning()
     {
-        return gameRunning;
+        return (gameRunning3D || gameRunning2D);
+    }
+
+    public bool IsGame3DRunning()
+    {
+        return gameRunning3D;
+    }
+
+    public bool IsGame2DRunning()
+    {
+        return gameRunning2D;
     }
 
     public float getTotalTime()
     {
         return TOTAL_TIME;
+    }
+
+    private void EndGame()
+    {
+
+        if (timer.getTimer() <= 0)
+        {
+            gameRunning3D = false;
+            gameRunning2D = false;
+            end.text = "El tiempo se ha acabado\nPuntuación: 0\n¡La proxima vez pisa más el aceBEARador!";
+        }
+        else
+        {
+
+            float minutes = Mathf.FloorToInt(timer.getTimer() / 60);
+            float seconds = Mathf.FloorToInt(timer.getTimer() % 60);
+            int points3D = (int)timer.getTimer() * 100;
+            totalScore = points3D + currentScore2D;
+
+            string results = "Tiempo restante: " + string.Format("{0:00}:{1:00}", minutes, seconds) + " a 100 puntos por segundo: " + points3D;
+
+            //PUNTOS 3D
+            // oro
+            if ((TOTAL_TIME - timer.getTimer()) < GOLD_TIME_3D)
+            {
+                end.color = Color.yellow;
+                results += "\n¡Medalla de ORO en conducción! (Menos de " + (int)GOLD_TIME_3D + " secs):  " + GOLD_POINTS_3D + " puntos";
+                totalScore += GOLD_POINTS_3D;
+            }
+            // plata
+            else if ((TOTAL_TIME - timer.getTimer()) < SILVER_TIME_3D && (TOTAL_TIME - timer.getTimer()) >= GOLD_TIME_3D)
+            {
+
+                results += "\n¡Medalla de PLATA en conducción! (Menos de " + (int)SILVER_TIME_3D + " secs):  " + SILVER_POINTS_3D + " puntos";
+                totalScore += SILVER_POINTS_3D;
+
+            }
+            // bronce
+            else if ((TOTAL_TIME - timer.getTimer()) < BRONZE_TIME_3D && (TOTAL_TIME - timer.getTimer()) >= SILVER_TIME_3D)
+            {
+
+                results += "\n¡Medalla de BRONCE en conducción! (Menos de " + (int)BRONZE_TIME_3D + " secs):  " + BRONZE_POINTS_3D + " puntos";
+                totalScore += BRONZE_POINTS_3D;
+
+            }
+            // loser
+            else
+            {
+
+                results += "\n¡Demasiado lento! No hay medalla en conducción esta vez.";
+            }
+
+
+            //PUNTOS 2D
+            //oro
+            if (notesPressed > GOLD_NOTES_2D)
+            {
+                end.color = Color.yellow;
+                results += "\n¡Medalla de ORO en cocina! (Más de " + GOLD_NOTES_2D + " secs):  " + GOLD_POINTS_2D + " puntos";
+                totalScore += GOLD_POINTS_2D;
+            }
+            // plata
+            else if (notesPressed > SILVER_NOTES_2D)
+            {
+
+                results += "\n¡Medalla de PLATA en cocina! (Más de " + SILVER_NOTES_2D + " secs):  " + SILVER_POINTS_2D + " puntos";
+                totalScore += SILVER_POINTS_2D;
+
+            }
+            // bronce
+            else if (notesPressed > BRONZE_NOTES_2D)
+            {
+
+                results += "\n¡Medalla de BRONCE en cocina! (Más de " + BRONZE_NOTES_2D + " secs):  " + BRONZE_POINTS_2D + " puntos";
+                totalScore += BRONZE_POINTS_2D;
+
+            }
+            // loser
+            else
+            {
+
+                results += "\n¡Demasiado lento! No hay medalla en cocina esta vez.";
+            }
+
+            results += "\nPuntuacion total: " + totalScore;
+
+            end.text = results;
+
+            RectTransform endTransform = end.GetComponentInParent<RectTransform>();
+
+            endTransform.transform.SetPositionAndRotation( new Vector3(endTransform.transform.position.x, (endTransform.transform.position.y - 240.0f), endTransform.transform.position.z), endTransform.transform.rotation);
+            endTransform.sizeDelta = new Vector2(2000, 400);
+            paperEnd.color = new Vector4(paperEnd.color.r, paperEnd.color.g, paperEnd.color.b, 255);
+
+        }
+
     }
 }

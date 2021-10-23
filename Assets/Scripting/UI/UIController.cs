@@ -13,16 +13,9 @@ public class UIController : MonoBehaviour
   public GameObject[] canvasArray, pressAnyCanvases, menuButtons;
 
   private GameObject currentCanvas;
+  private bool isLoading = false;
 
   void Start(){
-
-    //Sitúa el origen del cursor a la altura de la punta del boli
-    Vector2 cursorOffset = new Vector2(crosshair.width*.35f, crosshair.height*.38f);
-
-    //Cambia el cursor al sprite custom, con su offset y ForceSoftware para saltarse
-    //el límite de 32x32 píxeles que tiene windows para los cursores.
-    Cursor.SetCursor(crosshair, cursorOffset, CursorMode.ForceSoftware);
-
     currentCanvas = canvasArray[0];
   }
 
@@ -38,7 +31,7 @@ public class UIController : MonoBehaviour
           ChangeCanvasBtn(canvasArray[3]);
           break;
         case "Objective2":
-          Cursor.visible = false;
+          isLoading = true;
           StartCoroutine(LoadGameScene());
           break;
         case "Controller":
@@ -50,17 +43,29 @@ public class UIController : MonoBehaviour
       }
     }
     if (Input.GetAxis("Vertical3D") != 0 && EventSystem.current.currentSelectedGameObject == null) EventSystem.current.SetSelectedGameObject(menuButtons[0]);
-    if (Input.GetButtonDown("DownButton") && EventSystem.current.currentSelectedGameObject != null){
+    if (Input.GetButtonDown("Submit") && EventSystem.current.currentSelectedGameObject != null){
       EventSystem.current.currentSelectedGameObject.GetComponent<Button>().onClick.Invoke();
       //Inmediatamente deseleccionamos el botón porque como va todo por capas el jugador puede entrar en un bucle infinito xD
       EventSystem.current.SetSelectedGameObject(null);
-    } 
+    }
+
+    if (currentCanvas == canvasArray[6] || isLoading){
+      Cursor.visible = false;
+    }
+    else{
+      Cursor.visible = true;
+      BearHandCursor();
+    }
   }
 
   //Función para cambiar de menú. Llamada desde los botones del menú y el script
   public void ChangeCanvasBtn(GameObject nextCanvas){
     turnPageLayer.GetComponent<Animator>().SetTrigger("PageTurn");
     StartCoroutine(LoadPage(nextCanvas));
+  }
+
+  public void CreditsBtn(){
+    ChangeCanvasBtn(canvasArray[6]);
   }
 
   public void ExitBtn(){
@@ -77,8 +82,7 @@ public class UIController : MonoBehaviour
    currentCanvas = nextCanvas;
  }
 
-  private IEnumerator LoadGameScene()
-    {
+  private IEnumerator LoadGameScene(){
         // Carga la siguiente escena mientras el resto del código carga. La carga es prácticamente instantánea.
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("FirstLevelMadrid");
 
@@ -87,6 +91,15 @@ public class UIController : MonoBehaviour
         {
             yield return null;
         }
-    }
+  }
+
+  private void BearHandCursor(){
+    //Sitúa el origen del cursor a la altura de la punta del boli
+    Vector2 cursorOffset = new Vector2(crosshair.width*.35f, crosshair.height*.38f);
+
+    //Cambia el cursor al sprite custom, con su offset y ForceSoftware para saltarse
+    //el límite de 32x32 píxeles que tiene windows para los cursores.
+    Cursor.SetCursor(crosshair, cursorOffset, CursorMode.ForceSoftware);
+  }
 
 }

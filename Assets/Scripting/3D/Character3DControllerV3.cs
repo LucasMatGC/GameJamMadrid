@@ -28,12 +28,12 @@ public class Character3DControllerV3 : MonoBehaviour
 
     void Start()
     {
-        gameControl = FindObjectOfType<GameController>();
+        gameControl = GameController.instance;
     }
 
     private void FixedUpdate()
     {
-        if(gameControl.IsGameRunning())
+        if(gameControl.IsGame3DRunning())
         {
             GetInput();
             HandleMotor();

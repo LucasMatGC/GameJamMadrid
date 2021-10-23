@@ -6,8 +6,10 @@ public class NoteController : MonoBehaviour
 {
 
     private bool canBePressed;
-    private const float NORMAL_THRESHOLD = 1.0f;
-    private const float GOOD_THRESHOLD = 0.5f;
+    private const float NORMAL_THRESHOLD = 3.0f;
+    private const float GOOD_THRESHOLD = 1.5f;
+
+    private float baseNote;
 
     //public GameObject hitEffect, goodEffect, perfectEffect, missEffect;
 
@@ -16,7 +18,9 @@ public class NoteController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
+        baseNote = GameObject.Find("Notes").transform.position.y;
+
     }
 
     // Update is called once per frame
@@ -29,15 +33,13 @@ public class NoteController : MonoBehaviour
             gameObject.SetActive(false);
 
             //GameController.instance.NoteHit();
-            if (Mathf.Abs(transform.position.y) > NORMAL_THRESHOLD)
+            if (Mathf.Abs(baseNote - transform.position.y) > NORMAL_THRESHOLD)
             {
-
                 GameController.instance.NormalHit();
                 //Instantiate(hitEffect, transform.position, hitEffect.transform.rotation);
 
-            } else if (Mathf.Abs(transform.position.y) > GOOD_THRESHOLD)
+            } else if (Mathf.Abs(baseNote - transform.position.y) > GOOD_THRESHOLD)
             {
-
                 GameController.instance.GoodHit();
                 //Instantiate(goodEffect, transform.position, goodEffect.transform.rotation);
 

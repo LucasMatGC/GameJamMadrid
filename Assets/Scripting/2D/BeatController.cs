@@ -9,12 +9,6 @@ public class BeatController : MonoBehaviour
 
     public bool hasStarted;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        beatTempo = beatTempo;
-    }
-
     // Update is called once per frame
     void Update()
     {

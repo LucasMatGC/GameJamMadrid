@@ -23,8 +23,8 @@ public class GameController : MonoBehaviour
     private int scorePerNoteGood = 125;
     private int scorePerNotePerfect = 150;
 
-    private int currentMultiplier;
-    private int multiplierTracker;
+    public int currentMultiplier;
+    public int multiplierTracker;
     public int[] multiplierThreshold;
 
     public int[] notesPerStep;
@@ -114,7 +114,6 @@ public class GameController : MonoBehaviour
     {
 
         notesPressed++;
-        ControleStep(true);
 
         if (currentMultiplier - 1 < multiplierThreshold.Length)
         {
@@ -127,7 +126,10 @@ public class GameController : MonoBehaviour
             }
         }
 
+        ControleStep(true);
+
     }
+
     public void NoteMissed()
     {
 
@@ -168,22 +170,22 @@ public class GameController : MonoBehaviour
                 case 1:
                     //cortar clamar
                     animatorArms.SetTrigger("Make");
+                    animatorArms.SetTrigger("FinishedMaking");
                     break;
 
                 case 2:
                     //coger harina
-                    animatorArms.SetTrigger("FinishedMaking");
                     animatorArms.SetTrigger("TakeRight");
                     break;
 
                 case 3:
                     //rebozar calamar
                     animatorArms.SetTrigger("Make");
+                    animatorArms.SetTrigger("FinishedMaking");
                     break;
 
                 case 4:
                     //freir calamar
-                    animatorArms.SetTrigger("FinishedMaking");
                     animatorArms.SetTrigger("ThrowLeft");
                     break;
 
@@ -195,33 +197,33 @@ public class GameController : MonoBehaviour
                 case 6:
                     //cortar pan
                     animatorArms.SetTrigger("Make");
+                    animatorArms.SetTrigger("FinishedMaking");
                     break;
 
                 case 7:
                     //Coger mayonesa
-                    animatorArms.SetTrigger("FinishedMaking");
                     animatorArms.SetTrigger("TakeRight");
                     break;
 
                 case 8:
                     //poner mayonesa
                     animatorArms.SetTrigger("Make");
+                    animatorArms.SetTrigger("FinishedMaking");
                     break;
 
                 case 9:
                     //sacar calamar
-                    animatorArms.SetTrigger("FinishedMaking");
                     animatorArms.SetTrigger("TakeLeft");
                     break;
 
                 case 10:
                     //meter calamar
                     animatorArms.SetTrigger("Make");
+                    animatorArms.SetTrigger("FinishedMaking");
                     break;
 
                 default:
                     //montar bocata
-                    animatorArms.SetTrigger("FinishedMaking");
                     animatorArms.SetTrigger("Make");
                     animatorArms.SetTrigger("FinishedMaking");
                     //swipe bocata dcha

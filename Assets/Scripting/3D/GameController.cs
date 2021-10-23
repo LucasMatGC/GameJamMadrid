@@ -27,6 +27,16 @@ public class GameController : MonoBehaviour
     private int multiplierTracker;
     public int[] multiplierThreshold;
 
+    public int[] notesPerStep;
+    public int totalAnimation;
+
+    public int currentRecipe;
+    public int currentNoteStep;
+    public int currentAnimation;
+
+    private Animator animatorArms, animatorHead;
+
+
     public Text end;
     //public GameObject destination;
     //public GameObject player;
@@ -40,6 +50,9 @@ public class GameController : MonoBehaviour
     {
         instance = this;
 
+        animatorArms = GameObject.Find("OsoBrazos").GetComponent<Animator>();
+        animatorHead= GameObject.Find("OsoCabeza").GetComponent<Animator>();
+
         timer = FindObjectOfType<GameTimer>();
 
         end.enabled = false;
@@ -49,6 +62,10 @@ public class GameController : MonoBehaviour
         currentScore = 0;
         currentMultiplier = 1;
         multiplierTracker = 0;
+
+        currentRecipe = 0;
+        currentNoteStep = 0;
+        currentAnimation = 0;
 
         gameMusic.Play();
     }
@@ -97,7 +114,7 @@ public class GameController : MonoBehaviour
     {
 
         notesPressed++;
-        //currentScore += scorePerNote * currentMultiplier;
+        ControleStep(true);
 
         if (currentMultiplier - 1 < multiplierThreshold.Length)
         {
@@ -116,6 +133,113 @@ public class GameController : MonoBehaviour
 
         currentMultiplier = 1;
         multiplierTracker = 0;
+        ControleStep(false);
+
+    }
+
+    private void ControleStep(bool didHit)
+    {
+
+        currentNoteStep++;
+
+        if (didHit)
+        {
+
+            animatorHead.SetTrigger("Happy");
+
+        } else
+        {
+            animatorHead.SetTrigger("Angry");
+        }
+
+        if (currentNoteStep == notesPerStep[currentRecipe])
+        {
+
+            currentNoteStep = 0;
+
+            switch (currentAnimation)
+            {
+
+                case 0:
+                    //coger calamar
+                    animatorArms.SetTrigger("TakeRight");
+                    break;
+
+                case 1:
+                    //cortar clamar
+                    animatorArms.SetTrigger("Make");
+                    break;
+
+                case 2:
+                    //coger harina
+                    animatorArms.SetTrigger("FinishedMaking");
+                    animatorArms.SetTrigger("TakeRight");
+                    break;
+
+                case 3:
+                    //rebozar calamar
+                    animatorArms.SetTrigger("Make");
+                    break;
+
+                case 4:
+                    //freir calamar
+                    animatorArms.SetTrigger("FinishedMaking");
+                    animatorArms.SetTrigger("ThrowLeft");
+                    break;
+
+                case 5:
+                    //coger pan
+                    animatorArms.SetTrigger("TakeRight");
+                    break;
+
+                case 6:
+                    //cortar pan
+                    animatorArms.SetTrigger("Make");
+                    break;
+
+                case 7:
+                    //Coger mayonesa
+                    animatorArms.SetTrigger("FinishedMaking");
+                    animatorArms.SetTrigger("TakeRight");
+                    break;
+
+                case 8:
+                    //poner mayonesa
+                    animatorArms.SetTrigger("Make");
+                    break;
+
+                case 9:
+                    //sacar calamar
+                    animatorArms.SetTrigger("FinishedMaking");
+                    animatorArms.SetTrigger("TakeLeft");
+                    break;
+
+                case 10:
+                    //meter calamar
+                    animatorArms.SetTrigger("Make");
+                    break;
+
+                default:
+                    //montar bocata
+                    animatorArms.SetTrigger("FinishedMaking");
+                    animatorArms.SetTrigger("Make");
+                    animatorArms.SetTrigger("FinishedMaking");
+                    //swipe bocata dcha
+                    break;
+
+            }
+
+            currentAnimation++;
+
+            if (currentAnimation >= totalAnimation)
+            {
+
+                currentAnimation = 0;
+                currentRecipe++;
+
+            }
+
+        }
 
     }
 

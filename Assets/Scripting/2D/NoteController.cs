@@ -66,7 +66,7 @@ public class NoteController : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
 
-        if (collision.tag == "Button")
+        if (collision.tag == "Button" && gameObject.activeSelf)
         {
 
             canBePressed = false;

@@ -13,6 +13,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1.5, z: 1.5}
   m_Center: {x: -0.018346906, y: 0, z: 0.0000019073486}
+--- !u!114 &6012725723586709857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2326587563620395028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb48fe8f4a0a9e34dad7595649059a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  impactSound: {fileID: 0}
 --- !u!1001 &3209055381793953093
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -86,7 +99,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: ec85e989e22f9a54ba5f0d7b3b54900b, type: 2}
     - target: {fileID: 919132149155446097, guid: 7b35a078a0bf1414e93c6cb225bf2b9f, type: 3}
       propertyPath: m_Name
-      value: Contenedor
+      value: ContenedorVerde
       objectReference: {fileID: 0}
     - target: {fileID: 8959654842920735139, guid: 7b35a078a0bf1414e93c6cb225bf2b9f, type: 3}
       propertyPath: m_Materials.Array.data[0]

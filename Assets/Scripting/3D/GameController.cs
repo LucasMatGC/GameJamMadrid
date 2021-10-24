@@ -48,8 +48,25 @@ public class GameController : MonoBehaviour
     public int currentNoteStep;
     public int currentAnimation;
 
+    //ANIMATIONS BEAR
     private Animator animatorArms, animatorHead;
 
+    //ANIMATOR FREIDORA
+    public Animator fryer;
+
+    //ANIMATOR PUERTA
+    public Animator door;
+
+    //GAMEOBJECTS INGREDIENTS
+    public GameObject[] itemsAppear;
+    public GameObject[] stepGood;
+    public GameObject[] stepBad;
+    public GameObject particleGood;
+    public GameObject particleBad;
+    private GameObject previousStep;
+
+    private bool niceCut;
+    private bool niceSwipe;
 
     public Text end;
     public Text multiplier;
@@ -88,6 +105,8 @@ public class GameController : MonoBehaviour
         multiplier.color = Color.cyan;
 
         gameMusic.Play();
+
+        StartCoroutine(StartRecipe());
     }
 
     void Update()
@@ -187,10 +206,12 @@ public class GameController : MonoBehaviour
         {
 
             animatorHead.SetTrigger("Happy");
+            particleGood.SetActive(true);
 
         } else
         {
             animatorHead.SetTrigger("Angry");
+            particleBad.SetActive(true);
         }
 
         if (currentNoteStep == notesPerStep[currentRecipe])
@@ -203,68 +224,236 @@ public class GameController : MonoBehaviour
 
                 case 0:
                     //coger calamar
+                    itemsAppear[currentAnimation].SetActive(false);
                     animatorArms.SetTrigger("TakeRight");
+                    //stepGood[currentAnimation].SetActive(true);
+                    StartCoroutine(ActivateItem(stepGood[currentAnimation], 0.3f));
                     break;
 
                 case 1:
                     //cortar clamar
                     animatorArms.SetTrigger("Make");
-                    animatorArms.SetTrigger("FinishedMaking");
+
+                    stepGood[currentAnimation - 1].SetActive(false);
+
+                    if (didHit)
+                    {
+                        //stepGood[currentAnimation].SetActive(true);
+                        StartCoroutine(ActivateItem(stepGood[currentAnimation], 0.5f));
+
+                        previousStep = stepGood[currentAnimation];
+                        niceCut = true;
+                    }
+                    else
+                    {
+                        //stepBad[currentAnimation - 1].SetActive(true);
+                        StartCoroutine(ActivateItem(stepBad[currentAnimation - 1], 0.5f));
+
+                        previousStep = stepBad[currentAnimation - 1];
+                        niceCut = false;
+                    }
+
+                    door.SetTrigger("OpenDoor");
+                    itemsAppear[currentAnimation].SetActive(true);
+
+                    StartCoroutine(EndMakeAnimation());
+                    //animatorArms.SetTrigger("FinishedMaking");
+                    
                     break;
 
                 case 2:
                     //coger harina
+                    itemsAppear[currentAnimation - 1].SetActive(false);
                     animatorArms.SetTrigger("TakeRight");
+                    //Colocar harina en tabla
                     break;
 
                 case 3:
                     //rebozar calamar
                     animatorArms.SetTrigger("Make");
-                    animatorArms.SetTrigger("FinishedMaking");
+
+                    previousStep.SetActive(false);
+                    //Desactivar harina
+
+                    if (didHit)
+                    {
+                        //stepGood[currentAnimation - 1].SetActive(true);
+                        StartCoroutine(ActivateItem(stepGood[currentAnimation - 1], 0.5f));
+
+                        previousStep = stepGood[currentAnimation - 1];
+                    }
+                    else
+                    {
+                        //stepBad[currentAnimation - 2].SetActive(true);
+                        StartCoroutine(ActivateItem(stepBad[currentAnimation - 2], 0.5f));
+
+                        previousStep = stepBad[currentAnimation - 2];
+                    }
+
+                    StartCoroutine(EndMakeAnimation());
+                    //animatorArms.SetTrigger("FinishedMaking");
                     break;
 
                 case 4:
                     //freir calamar
+                    previousStep.SetActive(false);
                     animatorArms.SetTrigger("ThrowLeft");
+                    fryer.SetTrigger("Friendo");
+                    door.SetTrigger("OpenDoor");
+                    itemsAppear[currentAnimation - 2].SetActive(true);
                     break;
 
                 case 5:
                     //coger pan
+                    itemsAppear[currentAnimation - 3].SetActive(false);
                     animatorArms.SetTrigger("TakeRight");
+                    StartCoroutine(ActivateItem(stepGood[currentAnimation - 2], 0.3f));
+                    previousStep = stepGood[currentAnimation - 2];
                     break;
 
                 case 6:
                     //cortar pan
                     animatorArms.SetTrigger("Make");
-                    animatorArms.SetTrigger("FinishedMaking");
+                    previousStep.SetActive(false);
+
+                    if (didHit)
+                    {
+                        //stepGood[currentAnimation - 2].SetActive(true);
+                        StartCoroutine(ActivateItem(stepGood[currentAnimation - 2], 0.5f));
+                        previousStep = stepGood[currentAnimation - 2];
+                    }
+                    else
+                    {
+                        //stepBad[currentAnimation - 4].SetActive(true);
+                        StartCoroutine(ActivateItem(stepBad[currentAnimation - 4], 0.5f));
+                        previousStep = stepBad[currentAnimation - 4];
+                    }
+
+                    door.SetTrigger("OpenDoor");
+                    itemsAppear[currentAnimation - 3].SetActive(true);
+
+                    StartCoroutine(EndMakeAnimation());
+                    //animatorArms.SetTrigger("FinishedMaking");
                     break;
 
                 case 7:
                     //Coger mayonesa
+                    itemsAppear[currentAnimation - 4].SetActive(false);
                     animatorArms.SetTrigger("TakeRight");
+
+                    //Colocar mayonesa en tabla
+
                     break;
 
                 case 8:
                     //poner mayonesa
+
                     animatorArms.SetTrigger("Make");
-                    animatorArms.SetTrigger("FinishedMaking");
+                    previousStep.SetActive(false);
+
+                    if (didHit)
+                    {
+
+                        //stepGood[currentAnimation - 3].SetActive(true);
+                        StartCoroutine(ActivateItem(stepGood[currentAnimation - 3], 0.5f));
+                        previousStep = stepGood[currentAnimation - 3];
+                        niceSwipe = true;
+
+                    } else
+                    {
+
+                        //stepBad[currentAnimation - 5].SetActive(true);
+                        StartCoroutine(ActivateItem(stepBad[currentAnimation - 5], 0.5f));
+                        previousStep = stepBad[currentAnimation - 5];
+                        niceSwipe = false;
+
+                    }
+
+                    //Quitar mayonesa
+                    StartCoroutine(EndMakeAnimation());
+                    //animatorArms.SetTrigger("FinishedMaking");
                     break;
 
                 case 9:
                     //sacar calamar
                     animatorArms.SetTrigger("TakeLeft");
+                    fryer.SetTrigger("NoFriendo");
+
+                    //Poner calamar frito en mesa
                     break;
 
                 case 10:
                     //meter calamar
                     animatorArms.SetTrigger("Make");
-                    animatorArms.SetTrigger("FinishedMaking");
+                    previousStep.SetActive(false);
+
+                    //Ocultar calamar frito
+
+                    if (niceCut)
+                    {
+                        if (niceSwipe)
+                        {
+
+                            //stepGood[currentAnimation - 4].SetActive(true);
+                            StartCoroutine(ActivateItem(stepGood[currentAnimation - 4], 0.5f));
+                            previousStep = stepGood[currentAnimation - 4];
+
+                        } else
+                        {
+
+                            //stepBad[currentAnimation - 5].SetActive(true);
+                            StartCoroutine(ActivateItem(stepBad[currentAnimation - 5], 0.5f));
+                            previousStep = stepBad[currentAnimation - 5];
+
+                        }
+
+                    } else if (niceSwipe)
+                    {
+
+                        //stepBad[currentAnimation - 6].SetActive(true);
+                        StartCoroutine(ActivateItem(stepBad[currentAnimation - 6], 0.5f));
+                        previousStep = stepBad[currentAnimation - 6];
+
+                    } else
+                    {
+
+                        //stepBad[currentAnimation - 4].SetActive(true);
+                        StartCoroutine(ActivateItem(stepBad[currentAnimation - 4], 0.5f));
+                        previousStep = stepBad[currentAnimation - 4];
+
+                    }
+
+                    StartCoroutine(EndMakeAnimation());
+                    //animatorArms.SetTrigger("FinishedMaking");
                     break;
 
                 default:
                     //montar bocata
                     animatorArms.SetTrigger("Make");
-                    animatorArms.SetTrigger("FinishedMaking");
+                    previousStep.SetActive(false);
+
+                    if (didHit)
+                    {
+
+                        //stepGood[currentAnimation - 4].SetActive(true);
+                        StartCoroutine(ActivateItem(stepGood[currentAnimation - 4], 0.5f));
+                        previousStep = stepGood[currentAnimation - 4];
+
+                    }
+                    else
+                    {
+
+                        //stepBad[currentAnimation - 4].SetActive(true);
+                        StartCoroutine(ActivateItem(stepBad[currentAnimation - 4], 0.5f));
+                        previousStep = stepBad[currentAnimation - 4];
+
+                    }
+
+                    StartCoroutine(EndMakeAnimation());
+
+                    StartCoroutine(RemoveFinalItem());
+                    StartCoroutine(StartRecipe());
+                    //animatorArms.SetTrigger("FinishedMaking");
                     //swipe bocata dcha
                     break;
 
@@ -288,6 +477,36 @@ public class GameController : MonoBehaviour
             gameRunning2D = false;
 
     }
+
+    private IEnumerator EndMakeAnimation()
+    {
+        yield return new WaitForSeconds(1);
+        animatorArms.SetTrigger("FinishedMaking");
+
+    }
+
+    private IEnumerator ActivateItem(GameObject item, float time)
+    {
+        yield return new WaitForSeconds(0.3f);
+        item.SetActive(true);
+
+    }
+
+    private IEnumerator RemoveFinalItem()
+    {
+        yield return new WaitForSeconds(3);
+        previousStep.SetActive(false);
+
+    }
+
+    private IEnumerator StartRecipe()
+    {
+        yield return new WaitForSeconds(2);
+        door.SetTrigger("OpenDoor");
+        itemsAppear[0].SetActive(true);
+
+    }
+
 
     // si hemos llegado al destino
     public void ArriveDestination()

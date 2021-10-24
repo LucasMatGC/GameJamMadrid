@@ -24,10 +24,10 @@ public class GameController : MonoBehaviour
     public static GameController instance;
 
     public AudioSource gameMusic;
+    public AudioSource gameWin;
+    public AudioSource gameLose;
 
     public BeatController beatController;
-
-    public Canvas menuPause;
 
     public int totalNotes;
     private int notesPassed;
@@ -560,6 +560,8 @@ public class GameController : MonoBehaviour
             gameRunning3D = false;
             gameRunning2D = false;
             end.text = "El tiempo se ha acabado\nPuntuación: 0\n¡La proxima vez pisa más el aceBEARador!";
+            gameMusic.Stop();
+            gameLose.Play();
         }
         else
         {
@@ -631,20 +633,26 @@ public class GameController : MonoBehaviour
             else
             {
 
-                results += "\n¡Demasiado lento! No hay medalla en cocina esta vez.";
+                results += "\n¡Demasiados fallos! No hay medalla en cocina esta vez.";
             }
 
             results += "\nPuntuacion total: " + totalScore;
 
             end.text = results;
 
-            RectTransform endTransform = end.GetComponentInParent<RectTransform>();
 
-            endTransform.transform.SetPositionAndRotation( new Vector3(endTransform.transform.position.x, (endTransform.transform.position.y - 240.0f), endTransform.transform.position.z), endTransform.transform.rotation);
-            endTransform.sizeDelta = new Vector2(2000, 400);
-            paperEnd.color = new Vector4(paperEnd.color.r, paperEnd.color.g, paperEnd.color.b, 255);
+            //endTransform.transform.SetPositionAndRotation( new Vector3(endTransform.transform.position.x, (endTransform.transform.position.y - 240.0f), endTransform.transform.position.z), endTransform.transform.rotation);
+            gameMusic.Stop();
+            gameWin.Play();
 
         }
 
+        RectTransform endTransform = end.GetComponentInParent<RectTransform>();
+        RectTransform paperTransform = paperEnd.GetComponentInParent<RectTransform>();
+
+        endTransform.transform.SetPositionAndRotation(new Vector3(0, 0, 0), endTransform.transform.rotation);
+        endTransform.sizeDelta = new Vector2(2000, 400);
+        paperTransform.transform.SetPositionAndRotation(new Vector3(-2, 0, 0), paperTransform.transform.rotation);
+        paperTransform.sizeDelta = new Vector2(550, 300);
     }
 }

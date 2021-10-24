@@ -49,7 +49,7 @@ public class PauseMenuController : MonoBehaviour
             //Inmediatamente deseleccionamos el botón porque como va todo por capas el jugador puede entrar en un bucle infinito xD
             EventSystem.current.SetSelectedGameObject(null);
             }
-        }
+        } else EventSystem.current.SetSelectedGameObject(null);
         
     }
 

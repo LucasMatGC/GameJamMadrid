@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class PauseMenuController : MonoBehaviour
 {
@@ -9,7 +11,8 @@ public class PauseMenuController : MonoBehaviour
     public bool pausedGame;
     public Canvas menuPause;
     public AudioSource music;
-      public Texture2D crosshair;
+    public Texture2D crosshair;
+    public GameObject[] menuButtons;
 
     private string Menu = "MainMenu", CurrentLevel = "FirstLevelMadrid";
     // Start is called before the first frame update
@@ -39,21 +42,33 @@ public class PauseMenuController : MonoBehaviour
             }
         }
 
+        if (pausedGame){
+            if (EventSystem.current.currentSelectedGameObject == null) EventSystem.current.SetSelectedGameObject(menuButtons[0]);
+            if ((Input.GetButtonDown("Submit") || Input.GetButtonDown("DownButton")) && EventSystem.current.currentSelectedGameObject != null){
+            EventSystem.current.currentSelectedGameObject.GetComponent<Button>().onClick.Invoke();
+            //Inmediatamente deseleccionamos el botón porque como va todo por capas el jugador puede entrar en un bucle infinito xD
+            EventSystem.current.SetSelectedGameObject(null);
+            }
+        }
+        
     }
 
     public void Resume ()
     {
 
+        Cursor.visible = false;
         pausedGame = false;
         menuPause.enabled = false;
         Time.timeScale = 1f;
         music.Play();
-        Cursor.visible = false;
 
     }
 
     public void Restart()
     {
+
+        Cursor.visible = false;
+        menuPause.enabled = false;
         Time.timeScale = 1f;
         SceneManager.LoadScene(CurrentLevel);
 

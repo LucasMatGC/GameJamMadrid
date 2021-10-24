@@ -9,8 +9,9 @@ public class PauseMenuController : MonoBehaviour
     public bool pausedGame;
     public Canvas menuPause;
     public AudioSource music;
+      public Texture2D crosshair;
 
-    private string Menu = "MainManu", CurrentLevel = "FirstLevelMadrid";
+    private string Menu = "MainMenu", CurrentLevel = "FirstLevelMadrid";
     // Start is called before the first frame update
     void Start()
     {
@@ -27,10 +28,15 @@ public class PauseMenuController : MonoBehaviour
             pausedGame = !pausedGame;
             menuPause.enabled = pausedGame;
             Time.timeScale = (pausedGame) ? 0 : 1f;
-            if (pausedGame)
+            if (pausedGame){
                 music.Pause();
-            else
+                Cursor.visible = true;
+                BearHandCursor();
+            }
+            else{
                 music.Play();
+                Cursor.visible = false;
+            }
         }
 
     }
@@ -41,6 +47,8 @@ public class PauseMenuController : MonoBehaviour
         pausedGame = false;
         menuPause.enabled = false;
         Time.timeScale = 1f;
+        music.Play();
+        Cursor.visible = false;
 
     }
 
@@ -65,5 +73,14 @@ public class PauseMenuController : MonoBehaviour
         Application.Quit();
 
     }
+
+    private void BearHandCursor(){
+    //Sitúa el origen del cursor a la altura de la punta del boli
+    Vector2 cursorOffset = new Vector2(crosshair.width*.35f, crosshair.height*.38f);
+
+    //Cambia el cursor al sprite custom, con su offset y ForceSoftware para saltarse
+    //el límite de 32x32 píxeles que tiene windows para los cursores.
+    Cursor.SetCursor(crosshair, cursorOffset, CursorMode.ForceSoftware);
+  }
 
 }

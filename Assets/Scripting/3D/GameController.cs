@@ -63,6 +63,7 @@ public class GameController : MonoBehaviour
     public GameObject[] itemsAppear;
     public GameObject[] stepGood;
     public GameObject[] stepBad;
+    private GameObject[] toDisappear;
     public GameObject particleGood;
     public GameObject particleBad;
     private GameObject previousStep;
@@ -209,12 +210,10 @@ public class GameController : MonoBehaviour
         {
 
             animatorHead.SetTrigger("Happy");
-            particleGood.SetActive(true);
 
         } else
         {
             animatorHead.SetTrigger("Angry");
-            particleBad.SetActive(true);
         }
 
         if (currentNoteStep == notesPerStep[currentRecipe])
@@ -237,12 +236,11 @@ public class GameController : MonoBehaviour
                     //cortar clamar
                     animatorArms.SetTrigger("Make");
 
-                    stepGood[currentAnimation - 1].SetActive(false);
-
+                    toDisappear = new GameObject[] {stepGood[currentAnimation - 1]};
                     if (didHit)
                     {
                         //stepGood[currentAnimation].SetActive(true);
-                        StartCoroutine(ActivateItem(stepGood[currentAnimation], 0.5f));
+                        StartCoroutine(ActivateItem(stepGood[currentAnimation], 0.5f, toDisappear));
 
                         previousStep = stepGood[currentAnimation];
                         niceCut = true;
@@ -250,7 +248,7 @@ public class GameController : MonoBehaviour
                     else
                     {
                         //stepBad[currentAnimation - 1].SetActive(true);
-                        StartCoroutine(ActivateItem(stepBad[currentAnimation - 1], 0.5f));
+                        StartCoroutine(ActivateItem(stepBad[currentAnimation - 1], 0.5f, toDisappear));
 
                         previousStep = stepBad[currentAnimation - 1];
                         niceCut = false;
@@ -259,7 +257,7 @@ public class GameController : MonoBehaviour
                     door.SetTrigger("OpenDoor");
                     itemsAppear[currentAnimation].SetActive(true);
 
-                    StartCoroutine(EndMakeAnimation());
+                    StartCoroutine(EndMakeAnimation(didHit));
                     //animatorArms.SetTrigger("FinishedMaking");
                     
                     break;
@@ -269,31 +267,30 @@ public class GameController : MonoBehaviour
                     itemsAppear[currentAnimation - 1].SetActive(false);
                     animatorArms.SetTrigger("TakeRight");
                     //Colocar harina en tabla
+                    StartCoroutine(ActivateItem(stepGood[currentAnimation + 8], 0.5f));
                     break;
 
                 case 3:
                     //rebozar calamar
                     animatorArms.SetTrigger("Make");
 
-                    previousStep.SetActive(false);
-                    //Desactivar harina
-
+                    toDisappear = new GameObject[] {stepGood[currentAnimation + 7], previousStep};
                     if (didHit)
                     {
                         //stepGood[currentAnimation - 1].SetActive(true);
-                        StartCoroutine(ActivateItem(stepGood[currentAnimation - 1], 0.5f));
+                        StartCoroutine(ActivateItem(stepGood[currentAnimation - 1], 0.5f, toDisappear));
 
                         previousStep = stepGood[currentAnimation - 1];
                     }
                     else
                     {
                         //stepBad[currentAnimation - 2].SetActive(true);
-                        StartCoroutine(ActivateItem(stepBad[currentAnimation - 2], 0.5f));
+                        StartCoroutine(ActivateItem(stepBad[currentAnimation - 2], 0.5f, toDisappear));
 
                         previousStep = stepBad[currentAnimation - 2];
                     }
 
-                    StartCoroutine(EndMakeAnimation());
+                    StartCoroutine(EndMakeAnimation(didHit));
                     //animatorArms.SetTrigger("FinishedMaking");
                     break;
 
@@ -317,25 +314,25 @@ public class GameController : MonoBehaviour
                 case 6:
                     //cortar pan
                     animatorArms.SetTrigger("Make");
-                    previousStep.SetActive(false);
 
+                    toDisappear = new GameObject[] {previousStep};
                     if (didHit)
                     {
                         //stepGood[currentAnimation - 2].SetActive(true);
-                        StartCoroutine(ActivateItem(stepGood[currentAnimation - 2], 0.5f));
+                        StartCoroutine(ActivateItem(stepGood[currentAnimation - 2], 0.5f, toDisappear));
                         previousStep = stepGood[currentAnimation - 2];
                     }
                     else
                     {
                         //stepBad[currentAnimation - 4].SetActive(true);
-                        StartCoroutine(ActivateItem(stepBad[currentAnimation - 4], 0.5f));
+                        StartCoroutine(ActivateItem(stepBad[currentAnimation - 4], 0.5f, toDisappear));
                         previousStep = stepBad[currentAnimation - 4];
                     }
 
                     door.SetTrigger("OpenDoor");
                     itemsAppear[currentAnimation - 3].SetActive(true);
 
-                    StartCoroutine(EndMakeAnimation());
+                    StartCoroutine(EndMakeAnimation(didHit));
                     //animatorArms.SetTrigger("FinishedMaking");
                     break;
 
@@ -345,20 +342,20 @@ public class GameController : MonoBehaviour
                     animatorArms.SetTrigger("TakeRight");
 
                     //Colocar mayonesa en tabla
-
+                    StartCoroutine(ActivateItem(stepGood[currentAnimation + 2], 0.5f));
                     break;
 
                 case 8:
                     //poner mayonesa
 
                     animatorArms.SetTrigger("Make");
-                    previousStep.SetActive(false);
-
+                    
+                    toDisappear = new GameObject[] {stepGood[currentAnimation + 1], previousStep};
                     if (didHit)
                     {
 
                         //stepGood[currentAnimation - 3].SetActive(true);
-                        StartCoroutine(ActivateItem(stepGood[currentAnimation - 3], 0.5f));
+                        StartCoroutine(ActivateItem(stepGood[currentAnimation - 3], 0.5f, toDisappear));
                         previousStep = stepGood[currentAnimation - 3];
                         niceSwipe = true;
 
@@ -366,14 +363,14 @@ public class GameController : MonoBehaviour
                     {
 
                         //stepBad[currentAnimation - 5].SetActive(true);
-                        StartCoroutine(ActivateItem(stepBad[currentAnimation - 5], 0.5f));
+                        StartCoroutine(ActivateItem(stepBad[currentAnimation - 5], 0.5f, toDisappear));
                         previousStep = stepBad[currentAnimation - 5];
                         niceSwipe = false;
 
                     }
 
                     //Quitar mayonesa
-                    StartCoroutine(EndMakeAnimation());
+                    StartCoroutine(EndMakeAnimation(didHit));
                     //animatorArms.SetTrigger("FinishedMaking");
                     break;
 
@@ -383,14 +380,19 @@ public class GameController : MonoBehaviour
                     fryer.SetTrigger("NoFriendo");
 
                     //Poner calamar frito en mesa
+                    if (niceCut){
+                        StartCoroutine(ActivateItem(stepGood[currentAnimation-1], 0.5f));
+                    }
+                    else StartCoroutine(ActivateItem(stepBad[currentAnimation-1], 0.5f));
                     break;
 
                 case 10:
                     //meter calamar
                     animatorArms.SetTrigger("Make");
-                    previousStep.SetActive(false);
 
                     //Ocultar calamar frito
+                    if (stepGood[currentAnimation-2].activeInHierarchy) toDisappear = new GameObject[] {stepGood[currentAnimation-2], previousStep};
+                    else toDisappear = new GameObject[] {stepBad[currentAnimation-2], previousStep};
 
                     if (niceCut)
                     {
@@ -398,14 +400,14 @@ public class GameController : MonoBehaviour
                         {
 
                             //stepGood[currentAnimation - 4].SetActive(true);
-                            StartCoroutine(ActivateItem(stepGood[currentAnimation - 4], 0.5f));
+                            StartCoroutine(ActivateItem(stepGood[currentAnimation - 4], 0.5f, toDisappear));
                             previousStep = stepGood[currentAnimation - 4];
 
                         } else
                         {
 
                             //stepBad[currentAnimation - 5].SetActive(true);
-                            StartCoroutine(ActivateItem(stepBad[currentAnimation - 5], 0.5f));
+                            StartCoroutine(ActivateItem(stepBad[currentAnimation - 5], 0.5f, toDisappear));
                             previousStep = stepBad[currentAnimation - 5];
 
                         }
@@ -414,32 +416,33 @@ public class GameController : MonoBehaviour
                     {
 
                         //stepBad[currentAnimation - 6].SetActive(true);
-                        StartCoroutine(ActivateItem(stepBad[currentAnimation - 6], 0.5f));
+                        StartCoroutine(ActivateItem(stepBad[currentAnimation - 6], 0.5f, toDisappear));
                         previousStep = stepBad[currentAnimation - 6];
 
                     } else
                     {
 
                         //stepBad[currentAnimation - 4].SetActive(true);
-                        StartCoroutine(ActivateItem(stepBad[currentAnimation - 4], 0.5f));
+                        StartCoroutine(ActivateItem(stepBad[currentAnimation - 4], 0.5f, toDisappear));
                         previousStep = stepBad[currentAnimation - 4];
 
                     }
 
-                    StartCoroutine(EndMakeAnimation());
+                    StartCoroutine(EndMakeAnimation(didHit));
                     //animatorArms.SetTrigger("FinishedMaking");
                     break;
 
                 default:
                     //montar bocata
                     animatorArms.SetTrigger("Make");
-                    previousStep.SetActive(false);
 
+                    
+                    toDisappear = new GameObject[] {previousStep};
                     if (didHit)
                     {
 
                         //stepGood[currentAnimation - 4].SetActive(true);
-                        StartCoroutine(ActivateItem(stepGood[currentAnimation - 4], 0.5f));
+                        StartCoroutine(ActivateItem(stepGood[currentAnimation - 4], 0.5f, toDisappear));
                         previousStep = stepGood[currentAnimation - 4];
 
                     }
@@ -447,12 +450,12 @@ public class GameController : MonoBehaviour
                     {
 
                         //stepBad[currentAnimation - 4].SetActive(true);
-                        StartCoroutine(ActivateItem(stepBad[currentAnimation - 4], 0.5f));
+                        StartCoroutine(ActivateItem(stepBad[currentAnimation - 4], 0.5f, toDisappear));
                         previousStep = stepBad[currentAnimation - 4];
 
                     }
 
-                    StartCoroutine(EndMakeAnimation());
+                    StartCoroutine(EndMakeAnimation(didHit));
 
                     StartCoroutine(RemoveFinalItem());
                     StartCoroutine(StartRecipe());
@@ -481,17 +484,23 @@ public class GameController : MonoBehaviour
 
     }
 
-    private IEnumerator EndMakeAnimation()
+    private IEnumerator EndMakeAnimation(bool didHit)
     {
         yield return new WaitForSeconds(1);
         animatorArms.SetTrigger("FinishedMaking");
+        
+        if (didHit) particleGood.GetComponent<ParticleSystem>().Play();
+        else particleBad.GetComponent<ParticleSystem>().Play();
 
     }
 
-    private IEnumerator ActivateItem(GameObject item, float time)
+    private IEnumerator ActivateItem(GameObject item, float time, GameObject[] toDisappear = null)
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(time);
         item.SetActive(true);
+        if (toDisappear != null){
+            foreach (GameObject ingredient in toDisappear) ingredient.SetActive(false);
+        }
 
     }
 

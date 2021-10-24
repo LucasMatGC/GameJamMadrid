@@ -275,7 +275,7 @@ public class GameController : MonoBehaviour
                     animatorArms.SetTrigger("Make");
 
                     toDisappear = new GameObject[] {stepGood[currentAnimation + 7], previousStep};
-                    if (didHit)
+                    if (niceCut)
                     {
                         //stepGood[currentAnimation - 1].SetActive(true);
                         StartCoroutine(ActivateItem(stepGood[currentAnimation - 1], 0.5f, toDisappear));
@@ -438,7 +438,7 @@ public class GameController : MonoBehaviour
 
                     
                     toDisappear = new GameObject[] {previousStep};
-                    if (didHit)
+                    if (niceCut)
                     {
 
                         //stepGood[currentAnimation - 4].SetActive(true);
@@ -457,8 +457,9 @@ public class GameController : MonoBehaviour
 
                     StartCoroutine(EndMakeAnimation(didHit));
 
-                    StartCoroutine(RemoveFinalItem());
+                    StartCoroutine(RemoveFinalItem(previousStep));
                     StartCoroutine(StartRecipe());
+
                     //animatorArms.SetTrigger("FinishedMaking");
                     //swipe bocata dcha
                     break;
@@ -504,10 +505,13 @@ public class GameController : MonoBehaviour
 
     }
 
-    private IEnumerator RemoveFinalItem()
+    private IEnumerator RemoveFinalItem(GameObject finalIngredient)
     {
         yield return new WaitForSeconds(3);
         previousStep.SetActive(false);
+        animatorArms.SetTrigger("ThrowLeft");
+        yield return new WaitForSeconds(0.5f);
+        finalIngredient.SetActive(false);
 
     }
 

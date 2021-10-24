@@ -6,6 +6,9 @@ TagManager:
   tags:
   - destination
   - Button
+  - Scenary
+  - Car
+  - Cardboard
   layers:
   - Default
   - TransparentFX

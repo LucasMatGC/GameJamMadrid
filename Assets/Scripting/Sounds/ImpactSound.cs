@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ImpactSound : MonoBehaviour
 {
-    public AudioSource impactSound;
     public AudioSource impactSoundHit1;
     public AudioSource impactSoundHit2;
     public AudioSource impactSoundBox;
@@ -16,7 +15,7 @@ public class ImpactSound : MonoBehaviour
             switch (collision.collider.tag)
             {
 
-                case "Building":
+                case "Scenary":
 
                     if (!impactSoundHit1.isPlaying)
                     {
@@ -25,7 +24,7 @@ public class ImpactSound : MonoBehaviour
 
                     break;
 
-                case "Box":
+                case "Cardboard":
 
                     if (!impactSoundBox.isPlaying)
                     {
@@ -34,7 +33,7 @@ public class ImpactSound : MonoBehaviour
 
                     break;
 
-                case "Moviliary":
+                case "Car":
 
                     if (!impactSoundHit2.isPlaying)
                     {

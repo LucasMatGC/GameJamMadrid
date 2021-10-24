@@ -42,7 +42,7 @@ public class UIController : MonoBehaviour
           break;
       }
     }
-    if (EventSystem.current.currentSelectedGameObject == null) EventSystem.current.SetSelectedGameObject(menuButtons[0]);
+    if (EventSystem.current.currentSelectedGameObject == null && currentCanvas == canvasArray[1] && Input.GetAxis("Vertical3D") != 0) EventSystem.current.SetSelectedGameObject(menuButtons[0]);
     if ((Input.GetButtonDown("Submit") || Input.GetButtonDown("DownButton")) && EventSystem.current.currentSelectedGameObject != null){
       EventSystem.current.currentSelectedGameObject.GetComponent<Button>().onClick.Invoke();
       //Inmediatamente deseleccionamos el botón porque como va todo por capas el jugador puede entrar en un bucle infinito xD

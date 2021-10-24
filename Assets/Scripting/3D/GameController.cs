@@ -21,11 +21,13 @@ public class GameController : MonoBehaviour
     const int SILVER_POINTS_2D = 1000;
     const int BRONZE_POINTS_2D = 500;
 
+    public static GameController instance;
+
     public AudioSource gameMusic;
 
     public BeatController beatController;
 
-    public static GameController instance;
+    public Canvas menuPause;
 
     public int totalNotes;
     private int notesPassed;
@@ -37,16 +39,16 @@ public class GameController : MonoBehaviour
 
     private int totalScore;
 
-    public int currentMultiplier;
-    public int multiplierTracker;
+    private int currentMultiplier;
+    private int multiplierTracker;
     public int[] multiplierThreshold;
 
     public int[] notesPerStep;
     public int totalAnimation;
 
-    public int currentRecipe;
-    public int currentNoteStep;
-    public int currentAnimation;
+    private int currentRecipe;
+    private int currentNoteStep;
+    private int currentAnimation;
 
     //ANIMATIONS BEAR
     private Animator animatorArms, animatorHead;
@@ -74,9 +76,10 @@ public class GameController : MonoBehaviour
     //public GameObject player;
 
     // para saber si se ha iniciado o ha endalizado el juego
-    public bool gameRunning3D;
-    public bool gameRunning2D;
-    public bool showEnd;
+    private bool gameRunning3D;
+    private bool gameRunning2D;
+    private bool showEnd;
+    private bool pausedGame;
 
     private GameTimer timer;
 

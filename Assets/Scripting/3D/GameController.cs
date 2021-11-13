@@ -74,6 +74,7 @@ public class GameController : MonoBehaviour
 
     public Text end;
     public Text multiplier;
+    public Text upsideDown;
     public Image paperEnd;
     //public GameObject player;
 
@@ -656,5 +657,12 @@ public class GameController : MonoBehaviour
         endTransform.sizeDelta = new Vector2(2000, 400);
         paperTransform.transform.SetPositionAndRotation(new Vector3(-2, 0, 0), paperTransform.transform.rotation);
         paperTransform.sizeDelta = new Vector2(550, 300);
+    }
+
+    public void ShowUpsideDownText(bool isActive)
+    {
+
+        upsideDown.enabled = isActive;
+
     }
 }

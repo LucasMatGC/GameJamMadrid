@@ -10,6 +10,8 @@ public class Character3DControllerV3 : MonoBehaviour
     private float steerAngle;
     private bool isBreaking;
 
+    public GameObject player;
+
     public WheelCollider frontLeftWheelCollider;
     public WheelCollider frontRightWheelCollider;
     public WheelCollider rearLeftWheelCollider;
@@ -35,6 +37,7 @@ public class Character3DControllerV3 : MonoBehaviour
     {
         if(gameControl.IsGame3DRunning())
         {
+            CheckIfUpsideDown();
             GetInput();
             HandleMotor();
             HandleSteering();
@@ -90,6 +93,18 @@ public class Character3DControllerV3 : MonoBehaviour
         wheelCollider.GetWorldPose(out pos, out rot);
         trans.rotation = rot;
         trans.position = pos;
+    }
+
+    private void CheckIfUpsideDown()
+    {
+
+        if (Mathf.Abs(Vector3.Dot(player.transform.up, Vector3.down)) < 0.125f)
+        {
+
+            gameControl.ShowUpsideDownText(true);
+
+        }
+
     }
 
 }

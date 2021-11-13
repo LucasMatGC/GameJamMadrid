@@ -760,7 +760,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &263828728
 RectTransform:
   m_ObjectHideFlags: 0
@@ -777,7 +777,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -308, y: 73}
+  m_AnchoredPosition: {x: -363, y: 73}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &263828729
@@ -832,7 +832,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "Pulsa cualquier tecla o bot\xF3n para continuar..."
+  m_Text: "Pulsa cualquier tecla o bot\xF3n para saltar los cr\xE9ditos..."
 --- !u!222 &263828731
 CanvasRenderer:
   m_ObjectHideFlags: 0

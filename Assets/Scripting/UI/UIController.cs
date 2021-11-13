@@ -20,6 +20,7 @@ public class UIController : MonoBehaviour
   }
 
   private void Update(){
+    Debug.Log(Input.GetAxis("Vertical3D"));
     //Comprueba si estás en un menú en el que haya que pulsar lo que sea para continuar,
     //y te manda al sitio pertinente.
     if (Array.Exists(pressAnyCanvases, el => el == currentCanvas) && Input.anyKeyDown){
@@ -36,6 +37,9 @@ public class UIController : MonoBehaviour
           break;
         case "Controller":
           ChangeCanvasBtn(canvasArray[5]);
+          break;
+        case "Credits":
+          if(currentCanvas.gameObject.transform.GetChild(1).gameObject.activeInHierarchy) ChangeCanvasBtn(canvasArray[1]);
           break;
         default:
           ChangeCanvasBtn(canvasArray[1]);
@@ -80,6 +84,12 @@ public class UIController : MonoBehaviour
    currentCanvas.SetActive(false);
    nextCanvas.SetActive(true);
    currentCanvas = nextCanvas;
+
+   if (currentCanvas.name == "Credits"){
+     currentCanvas.gameObject.transform.GetChild(1).gameObject.SetActive(false);
+     yield return new WaitForSeconds(5);
+     currentCanvas.gameObject.transform.GetChild(1).gameObject.SetActive(true);
+   }
  }
 
   private IEnumerator LoadGameScene(){

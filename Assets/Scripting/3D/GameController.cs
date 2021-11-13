@@ -38,6 +38,7 @@ public class GameController : MonoBehaviour
     private int scorePerNotePerfect = 150;
 
     private int totalScore;
+    private float timeEndDrive = 0.0f;
 
     private int currentMultiplier;
     private int multiplierTracker;
@@ -529,6 +530,7 @@ public class GameController : MonoBehaviour
     {
         
         gameRunning3D = false;
+        timeEndDrive = timer.getTimer();
                 
     }
 
@@ -575,14 +577,14 @@ public class GameController : MonoBehaviour
 
             //PUNTOS 3D
             // oro
-            if ((TOTAL_TIME - timer.getTimer()) < GOLD_TIME_3D)
+            if ((TOTAL_TIME - timeEndDrive) < GOLD_TIME_3D)
             {
                 end.color = Color.yellow;
                 results += "\n¡Medalla de ORO en conducción! (Menos de " + (int)GOLD_TIME_3D + " secs):  " + GOLD_POINTS_3D + " puntos";
                 totalScore += GOLD_POINTS_3D;
             }
             // plata
-            else if ((TOTAL_TIME - timer.getTimer()) < SILVER_TIME_3D && (TOTAL_TIME - timer.getTimer()) >= GOLD_TIME_3D)
+            else if ((TOTAL_TIME - timeEndDrive) < SILVER_TIME_3D && (TOTAL_TIME - timeEndDrive) >= GOLD_TIME_3D)
             {
 
                 results += "\n¡Medalla de PLATA en conducción! (Menos de " + (int)SILVER_TIME_3D + " secs):  " + SILVER_POINTS_3D + " puntos";
@@ -590,7 +592,7 @@ public class GameController : MonoBehaviour
 
             }
             // bronce
-            else if ((TOTAL_TIME - timer.getTimer()) < BRONZE_TIME_3D && (TOTAL_TIME - timer.getTimer()) >= SILVER_TIME_3D)
+            else if ((TOTAL_TIME - timeEndDrive) < BRONZE_TIME_3D && (TOTAL_TIME - timeEndDrive) >= SILVER_TIME_3D)
             {
 
                 results += "\n¡Medalla de BRONCE en conducción! (Menos de " + (int)BRONZE_TIME_3D + " secs):  " + BRONZE_POINTS_3D + " puntos";

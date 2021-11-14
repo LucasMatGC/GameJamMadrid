@@ -75,6 +75,8 @@ public class GameController : MonoBehaviour
     public Text end;
     public Text multiplier;
     public Text upsideDown;
+    public Text end3DMessage;
+    public Text end2DMessage;
     public Image paperEnd;
     //public GameObject player;
 
@@ -484,7 +486,12 @@ public class GameController : MonoBehaviour
         notesPassed++;
 
         if (notesPassed == totalNotes)
+        {
+
             gameRunning2D = false;
+            //end2DMessage.enabled = true;
+
+        }
 
     }
 
@@ -532,6 +539,7 @@ public class GameController : MonoBehaviour
     {
         
         gameRunning3D = false;
+        //end3DMessage.enabled = true;
         timeEndDrive = timer.getTimer();
                 
     }
@@ -558,6 +566,9 @@ public class GameController : MonoBehaviour
 
     private void EndGame()
     {
+
+        //end3DMessage.enabled = false;
+        //end2DMessage.enabled = false;
 
         if (timer.getTimer() <= 0)
         {

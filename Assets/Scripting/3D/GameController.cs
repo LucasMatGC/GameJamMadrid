@@ -127,6 +127,7 @@ public class GameController : MonoBehaviour
                 gameRunning3D = false;
                 gameRunning2D = false;
             }
+
         } else
         {
             if (!showEnd)
@@ -665,4 +666,5 @@ public class GameController : MonoBehaviour
         upsideDown.enabled = isActive;
 
     }
+
 }

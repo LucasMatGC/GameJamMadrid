@@ -33,11 +33,12 @@ public class Character3DControllerV3 : MonoBehaviour
         gameControl = GameController.instance;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if(gameControl.IsGame3DRunning())
         {
             CheckIfUpsideDown();
+            CheckRespawn();
             GetInput();
             HandleMotor();
             HandleSteering();
@@ -104,6 +105,27 @@ public class Character3DControllerV3 : MonoBehaviour
             gameControl.ShowUpsideDownText(true);
 
         }
+
+    }
+
+    private void CheckRespawn()
+    {
+
+        if (Input.GetButtonDown("Respawn"))
+        {
+
+            RespawnPlayer();
+
+        }
+
+    }
+
+    private void RespawnPlayer()
+    {
+
+        Debug.Log("________________________________RESPAWN________________________________");
+        player.transform.rotation = new Quaternion(0f, player.transform.rotation.y, 0f, player.transform.rotation.w);
+        gameControl.ShowUpsideDownText(false);
 
     }
 

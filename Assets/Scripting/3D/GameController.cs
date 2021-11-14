@@ -74,6 +74,7 @@ public class GameController : MonoBehaviour
 
     public Text end;
     public Text multiplier;
+    public Text upsideDown;
     public Image paperEnd;
     //public GameObject player;
 
@@ -126,6 +127,7 @@ public class GameController : MonoBehaviour
                 gameRunning3D = false;
                 gameRunning2D = false;
             }
+
         } else
         {
             if (!showEnd)
@@ -657,4 +659,12 @@ public class GameController : MonoBehaviour
         paperTransform.transform.SetPositionAndRotation(new Vector3(-2, 0, 0), paperTransform.transform.rotation);
         paperTransform.sizeDelta = new Vector2(550, 300);
     }
+
+    public void ShowUpsideDownText(bool isActive)
+    {
+
+        upsideDown.enabled = isActive;
+
+    }
+
 }

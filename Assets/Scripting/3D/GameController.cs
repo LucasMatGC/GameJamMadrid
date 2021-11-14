@@ -489,7 +489,7 @@ public class GameController : MonoBehaviour
         {
 
             gameRunning2D = false;
-            //end2DMessage.enabled = true;
+            end2DMessage.enabled = true;
 
         }
 
@@ -539,7 +539,7 @@ public class GameController : MonoBehaviour
     {
         
         gameRunning3D = false;
-        //end3DMessage.enabled = true;
+        end3DMessage.enabled = true;
         timeEndDrive = timer.getTimer();
                 
     }
@@ -567,8 +567,8 @@ public class GameController : MonoBehaviour
     private void EndGame()
     {
 
-        //end3DMessage.enabled = false;
-        //end2DMessage.enabled = false;
+        end3DMessage.enabled = false;
+        end2DMessage.enabled = false;
 
         if (timer.getTimer() <= 0)
         {

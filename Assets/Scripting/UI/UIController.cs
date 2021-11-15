@@ -14,14 +14,22 @@ public class UIController : MonoBehaviour
 
   private GameObject currentCanvas;
   private bool isLoading = false;
+  private Vector3 cursorInitPos;
+  private bool mouseUser = false;
 
   void Start(){
     currentCanvas = canvasArray[0];
+
+    Cursor.visible = false;
+    cursorInitPos = Input.mousePosition;
   }
 
   private void Update(){
     //Comprueba si estás en un menú en el que haya que pulsar lo que sea para continuar,
     //y te manda al sitio pertinente.
+    if (!mouseUser && Input.mousePosition != cursorInitPos){
+      mouseUser = true;
+    } 
     if (Array.Exists(pressAnyCanvases, el => el == currentCanvas) && Input.anyKeyDown){
       switch (currentCanvas.name){
         case "IntroScreen":
@@ -56,7 +64,7 @@ public class UIController : MonoBehaviour
     if (currentCanvas == canvasArray[6] || isLoading){
       Cursor.visible = false;
     }
-    else{
+    else if (mouseUser){
       Cursor.visible = true;
       BearHandCursor();
     }

@@ -15,6 +15,8 @@ public class PauseMenuController : MonoBehaviour
     public GameObject[] menuButtons;
 
     private string Menu = "MainMenu", CurrentLevel = "FirstLevelMadrid";
+    private bool mouseUser = false;
+    private Vector3 mouseInitPos;
   
     void Update()
     {
@@ -26,13 +28,14 @@ public class PauseMenuController : MonoBehaviour
             menuPause.enabled = pausedGame;
             Time.timeScale = (pausedGame) ? 0 : 1f;
             if (pausedGame){
+                Debug.Log("Cycle in menu");
                 music.Pause();
-                Cursor.visible = true;
                 BearHandCursor();
+                mouseInitPos = Input.mousePosition;
             }
             else{
                 music.Play();
-                Cursor.visible = false;
+                mouseUser = false;
             }
         }
 
@@ -43,26 +46,30 @@ public class PauseMenuController : MonoBehaviour
             //Inmediatamente deseleccionamos el botón porque como va todo por capas el jugador puede entrar en un bucle infinito
             EventSystem.current.SetSelectedGameObject(null);
             }
+            if (!mouseUser && Input.mousePosition != mouseInitPos) mouseUser = true;
         } else EventSystem.current.SetSelectedGameObject(null);
+
+        if (mouseUser) Cursor.visible = true;
+        else Cursor.visible = false;
         
     }
 
     public void Resume ()
     {
 
-        Cursor.visible = false;
         pausedGame = false;
         menuPause.enabled = false;
         Time.timeScale = 1f;
         music.Play();
+        mouseUser = false;
 
     }
 
     public void Restart()
     {
 
-        Cursor.visible = false;
         menuPause.enabled = false;
+        mouseUser = false;
         Time.timeScale = 1f;
         SceneManager.LoadScene(CurrentLevel);
 
@@ -70,7 +77,7 @@ public class PauseMenuController : MonoBehaviour
 
     public void LoadMenu()
     {
-
+        mouseUser = false;
         Time.timeScale = 1f;
         SceneManager.LoadScene(Menu);
 

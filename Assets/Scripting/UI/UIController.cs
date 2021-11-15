@@ -37,15 +37,19 @@ public class UIController : MonoBehaviour
         case "Controller":
           ChangeCanvasBtn(canvasArray[5]);
           break;
+        case "Credits":
+          if(currentCanvas.gameObject.transform.GetChild(1).gameObject.activeInHierarchy) ChangeCanvasBtn(canvasArray[1]);
+          break;
         default:
           ChangeCanvasBtn(canvasArray[1]);
           break;
       }
     }
-    if (EventSystem.current.currentSelectedGameObject == null && currentCanvas == canvasArray[1] && Input.GetAxis("Vertical3D") != 0) EventSystem.current.SetSelectedGameObject(menuButtons[0]);
+    if (currentCanvas != canvasArray[1]) EventSystem.current.SetSelectedGameObject(null);
+    else if (EventSystem.current.currentSelectedGameObject == null && Mathf.Abs(Input.GetAxis("VerticalUI")) >= 0.2f) EventSystem.current.SetSelectedGameObject(menuButtons[0]);
     if ((Input.GetButtonDown("Submit") || Input.GetButtonDown("DownButton")) && EventSystem.current.currentSelectedGameObject != null){
       EventSystem.current.currentSelectedGameObject.GetComponent<Button>().onClick.Invoke();
-      //Inmediatamente deseleccionamos el botón porque como va todo por capas el jugador puede entrar en un bucle infinito xD
+      //Inmediatamente deseleccionamos el botón porque como va todo por capas el jugador puede entrar en un bucle infinito
       EventSystem.current.SetSelectedGameObject(null);
     }
 
@@ -80,6 +84,12 @@ public class UIController : MonoBehaviour
    currentCanvas.SetActive(false);
    nextCanvas.SetActive(true);
    currentCanvas = nextCanvas;
+
+   if (currentCanvas.name == "Credits"){
+     currentCanvas.gameObject.transform.GetChild(1).gameObject.SetActive(false);
+     yield return new WaitForSeconds(5);
+     currentCanvas.gameObject.transform.GetChild(1).gameObject.SetActive(true);
+   }
  }
 
   private IEnumerator LoadGameScene(){

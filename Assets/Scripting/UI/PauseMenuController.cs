@@ -15,13 +15,7 @@ public class PauseMenuController : MonoBehaviour
     public GameObject[] menuButtons;
 
     private string Menu = "MainMenu", CurrentLevel = "FirstLevelMadrid";
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
+  
     void Update()
     {
 
@@ -43,10 +37,10 @@ public class PauseMenuController : MonoBehaviour
         }
 
         if (pausedGame){
-            if (EventSystem.current.currentSelectedGameObject == null) EventSystem.current.SetSelectedGameObject(menuButtons[0]);
+            if (EventSystem.current.currentSelectedGameObject == null && Mathf.Abs(Input.GetAxis("VerticalUI")) >= 0.2f) EventSystem.current.SetSelectedGameObject(menuButtons[0]);
             if ((Input.GetButtonDown("Submit") || Input.GetButtonDown("DownButton")) && EventSystem.current.currentSelectedGameObject != null){
             EventSystem.current.currentSelectedGameObject.GetComponent<Button>().onClick.Invoke();
-            //Inmediatamente deseleccionamos el botón porque como va todo por capas el jugador puede entrar en un bucle infinito xD
+            //Inmediatamente deseleccionamos el botón porque como va todo por capas el jugador puede entrar en un bucle infinito
             EventSystem.current.SetSelectedGameObject(null);
             }
         } else EventSystem.current.SetSelectedGameObject(null);

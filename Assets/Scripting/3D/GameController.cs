@@ -668,7 +668,7 @@ public class GameController : MonoBehaviour
         RectTransform paperTransform = paperEnd.GetComponentInParent<RectTransform>();
 
         endTransform.transform.SetPositionAndRotation(new Vector3(0, 0, 0), endTransform.transform.rotation);
-        endTransform.sizeDelta = new Vector2(2000, 400);
+        endTransform.sizeDelta = new Vector2(5000, 2000);
         paperTransform.transform.SetPositionAndRotation(new Vector3(-2, 0, 0), paperTransform.transform.rotation);
         paperTransform.sizeDelta = new Vector2(640, 300);
     }

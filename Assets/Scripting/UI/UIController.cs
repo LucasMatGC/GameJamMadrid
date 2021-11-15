@@ -46,11 +46,10 @@ public class UIController : MonoBehaviour
       }
     }
     if (currentCanvas != canvasArray[1]) EventSystem.current.SetSelectedGameObject(null);
-    else if (EventSystem.current.currentSelectedGameObject == null && Mathf.Abs(Input.GetAxis("Vertical3D")) >= 0.2f) EventSystem.current.SetSelectedGameObject(menuButtons[0]);
-    //if (EventSystem.current.currentSelectedGameObject == null && currentCanvas == canvasArray[1] && Input.GetAxis("Vertical3D") != 0) EventSystem.current.SetSelectedGameObject(menuButtons[0]);
+    else if (EventSystem.current.currentSelectedGameObject == null && Mathf.Abs(Input.GetAxis("VerticalUI")) >= 0.2f) EventSystem.current.SetSelectedGameObject(menuButtons[0]);
     if ((Input.GetButtonDown("Submit") || Input.GetButtonDown("DownButton")) && EventSystem.current.currentSelectedGameObject != null){
       EventSystem.current.currentSelectedGameObject.GetComponent<Button>().onClick.Invoke();
-      //Inmediatamente deseleccionamos el botón porque como va todo por capas el jugador puede entrar en un bucle infinito xD
+      //Inmediatamente deseleccionamos el botón porque como va todo por capas el jugador puede entrar en un bucle infinito
       EventSystem.current.SetSelectedGameObject(null);
     }
 

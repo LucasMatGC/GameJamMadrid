@@ -627,14 +627,14 @@ public class GameController : MonoBehaviour
             if (notesPressed > GOLD_NOTES_2D)
             {
                 end.color = Color.yellow;
-                results += "\n¡Medalla de ORO en cocina! (Más de " + GOLD_NOTES_2D + " secs):  " + GOLD_POINTS_2D + " puntos";
+                results += "\n¡Medalla de ORO en cocina! (Más de " + GOLD_NOTES_2D + " notas acertadas):  " + GOLD_POINTS_2D + " puntos";
                 totalScore += GOLD_POINTS_2D;
             }
             // plata
             else if (notesPressed > SILVER_NOTES_2D)
             {
 
-                results += "\n¡Medalla de PLATA en cocina! (Más de " + SILVER_NOTES_2D + " secs):  " + SILVER_POINTS_2D + " puntos";
+                results += "\n¡Medalla de PLATA en cocina! (Más de " + SILVER_NOTES_2D + " notas acertadas):  " + SILVER_POINTS_2D + " puntos";
                 totalScore += SILVER_POINTS_2D;
 
             }
@@ -642,7 +642,7 @@ public class GameController : MonoBehaviour
             else if (notesPressed > BRONZE_NOTES_2D)
             {
 
-                results += "\n¡Medalla de BRONCE en cocina! (Más de " + BRONZE_NOTES_2D + " secs):  " + BRONZE_POINTS_2D + " puntos";
+                results += "\n¡Medalla de BRONCE en cocina! (Más de " + BRONZE_NOTES_2D + " notas acertadas):  " + BRONZE_POINTS_2D + " puntos";
                 totalScore += BRONZE_POINTS_2D;
 
             }
@@ -670,7 +670,7 @@ public class GameController : MonoBehaviour
         endTransform.transform.SetPositionAndRotation(new Vector3(0, 0, 0), endTransform.transform.rotation);
         endTransform.sizeDelta = new Vector2(2000, 400);
         paperTransform.transform.SetPositionAndRotation(new Vector3(-2, 0, 0), paperTransform.transform.rotation);
-        paperTransform.sizeDelta = new Vector2(550, 300);
+        paperTransform.sizeDelta = new Vector2(640, 300);
     }
 
     public void ShowUpsideDownText(bool isActive)

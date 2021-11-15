@@ -48,6 +48,7 @@ public class NoteController : MonoBehaviour
                 //Instantiate(perfectEffect, transform.position, perfectEffect.transform.rotation);
             }
 
+            gameObject.SetActive(false);
             Destroy(gameObject);
 
         }

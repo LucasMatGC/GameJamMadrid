@@ -37,8 +37,6 @@ public class PauseMenuController : MonoBehaviour
         }
 
         if (pausedGame){
-            Debug.Log("VerticalUI: " + Input.GetAxis("VerticalUI"));
-            Debug.Log("Vertical3D: " + Input.GetAxis("Vertical3D"));
             if (EventSystem.current.currentSelectedGameObject == null) EventSystem.current.SetSelectedGameObject(menuButtons[0]);
             if ((Input.GetButtonDown("Submit") || Input.GetButtonDown("DownButton")) && EventSystem.current.currentSelectedGameObject != null){
             EventSystem.current.currentSelectedGameObject.GetComponent<Button>().onClick.Invoke();

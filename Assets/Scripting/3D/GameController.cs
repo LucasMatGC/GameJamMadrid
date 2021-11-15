@@ -77,6 +77,7 @@ public class GameController : MonoBehaviour
     public Text upsideDown;
     public Text end3DMessage;
     public Text end2DMessage;
+    public Text counter;
     public Image paperEnd;
     //public GameObject player;
 
@@ -478,6 +479,7 @@ public class GameController : MonoBehaviour
 
                 currentAnimation = 0;
                 currentRecipe++;
+                counter.text = currentRecipe + "/3";
 
             }
 

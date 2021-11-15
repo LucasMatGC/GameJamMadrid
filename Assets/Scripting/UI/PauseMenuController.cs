@@ -28,7 +28,6 @@ public class PauseMenuController : MonoBehaviour
             menuPause.enabled = pausedGame;
             Time.timeScale = (pausedGame) ? 0 : 1f;
             if (pausedGame){
-                Debug.Log("Cycle in menu");
                 music.Pause();
                 BearHandCursor();
                 mouseInitPos = Input.mousePosition;

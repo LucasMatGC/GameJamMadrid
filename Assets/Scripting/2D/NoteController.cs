@@ -30,7 +30,6 @@ public class NoteController : MonoBehaviour
         if (Input.GetButtonDown(ButtonAssigned) && canBePressed)
         {
 
-            gameObject.SetActive(false);
 
             //GameController.instance.NoteHit();
             if (Mathf.Abs(baseNote - transform.position.y) > NORMAL_THRESHOLD)
@@ -48,6 +47,8 @@ public class NoteController : MonoBehaviour
                 GameController.instance.PerfectHit();
                 //Instantiate(perfectEffect, transform.position, perfectEffect.transform.rotation);
             }
+
+            Destroy(gameObject);
 
         }
 
@@ -74,6 +75,7 @@ public class NoteController : MonoBehaviour
             canBePressed = false;
 
             GameController.instance.NoteMissed();
+            Destroy(gameObject);
             //Instantiate(missEffect, transform.position, missEffect.transform.rotation);
 
         }

@@ -74,6 +74,9 @@ public class GameController : MonoBehaviour
 
     public Text end;
     public Text multiplier;
+    public Text upsideDown;
+    public Text end3DMessage;
+    public Text end2DMessage;
     public Image paperEnd;
     //public GameObject player;
 
@@ -126,6 +129,7 @@ public class GameController : MonoBehaviour
                 gameRunning3D = false;
                 gameRunning2D = false;
             }
+
         } else
         {
             if (!showEnd)
@@ -482,7 +486,12 @@ public class GameController : MonoBehaviour
         notesPassed++;
 
         if (notesPassed == totalNotes)
+        {
+
             gameRunning2D = false;
+            end2DMessage.enabled = true;
+
+        }
 
     }
 
@@ -530,6 +539,7 @@ public class GameController : MonoBehaviour
     {
         
         gameRunning3D = false;
+        end3DMessage.enabled = true;
         timeEndDrive = timer.getTimer();
                 
     }
@@ -556,6 +566,9 @@ public class GameController : MonoBehaviour
 
     private void EndGame()
     {
+
+        end3DMessage.enabled = false;
+        end2DMessage.enabled = false;
 
         if (timer.getTimer() <= 0)
         {
@@ -657,4 +670,12 @@ public class GameController : MonoBehaviour
         paperTransform.transform.SetPositionAndRotation(new Vector3(-2, 0, 0), paperTransform.transform.rotation);
         paperTransform.sizeDelta = new Vector2(550, 300);
     }
+
+    public void ShowUpsideDownText(bool isActive)
+    {
+
+        upsideDown.enabled = isActive;
+
+    }
+
 }

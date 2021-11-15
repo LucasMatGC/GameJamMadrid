@@ -10,6 +10,8 @@ public class Character3DControllerV3 : MonoBehaviour
     private float steerAngle;
     private bool isBreaking;
 
+    public GameObject player;
+
     public WheelCollider frontLeftWheelCollider;
     public WheelCollider frontRightWheelCollider;
     public WheelCollider rearLeftWheelCollider;
@@ -31,10 +33,12 @@ public class Character3DControllerV3 : MonoBehaviour
         gameControl = GameController.instance;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if(gameControl.IsGame3DRunning())
         {
+            CheckIfUpsideDown();
+            CheckRespawn();
             GetInput();
             HandleMotor();
             HandleSteering();
@@ -65,8 +69,22 @@ public class Character3DControllerV3 : MonoBehaviour
 
     private void HandleMotor()
     {
-        frontLeftWheelCollider.motorTorque = verticalInput * motorForce;
-        frontRightWheelCollider.motorTorque = verticalInput * motorForce;
+        if (frontLeftWheelCollider.rpm > 500)
+        {
+            frontLeftWheelCollider.motorTorque = 0;
+        } else
+        {
+            frontLeftWheelCollider.motorTorque = verticalInput * motorForce;
+        }
+
+        if (frontLeftWheelCollider.rpm > 500)
+        {
+            frontRightWheelCollider.motorTorque = 0;
+        }
+        else
+        {
+            frontRightWheelCollider.motorTorque = verticalInput * motorForce;
+        }
 
         brakeForce = isBreaking ? maxBreakForce : 0f;
         frontLeftWheelCollider.brakeTorque = brakeForce;
@@ -90,6 +108,45 @@ public class Character3DControllerV3 : MonoBehaviour
         wheelCollider.GetWorldPose(out pos, out rot);
         trans.rotation = rot;
         trans.position = pos;
+    }
+
+    private void CheckIfUpsideDown()
+    {
+
+        if (Mathf.Abs(Vector3.Dot(player.transform.up, Vector3.down)) < 0.125f)
+        {
+
+            gameControl.ShowUpsideDownText(true);
+
+        }
+
+    }
+
+    private void CheckRespawn()
+    {
+
+        if (Input.GetButtonDown("Respawn"))
+        {
+
+            RespawnPlayer();
+
+        }
+
+    }
+
+    private void RespawnPlayer()
+    {
+
+        Rigidbody playerRigidBody = player.GetComponent<Rigidbody>();
+        playerRigidBody.velocity = new Vector3(0f, 0f, 0f);
+        playerRigidBody.angularVelocity = new Vector3(0f, 0f, 0f);
+        player.transform.rotation = new Quaternion(0f, player.transform.rotation.y, 0f, player.transform.rotation.w);
+        frontLeftWheelCollider.motorTorque = 0;
+        frontRightWheelCollider.motorTorque = 0;
+        frontLeftWheelCollider.brakeTorque = maxBreakForce;
+        frontRightWheelCollider.brakeTorque = maxBreakForce;
+        gameControl.ShowUpsideDownText(false);
+
     }
 
 }

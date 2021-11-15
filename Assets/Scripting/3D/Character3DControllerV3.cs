@@ -77,7 +77,7 @@ public class Character3DControllerV3 : MonoBehaviour
             frontLeftWheelCollider.motorTorque = verticalInput * motorForce;
         }
 
-        if (frontLeftWheelCollider.rpm > 500)
+        if (frontRightWheelCollider.rpm > 500)
         {
             frontRightWheelCollider.motorTorque = 0;
         }
